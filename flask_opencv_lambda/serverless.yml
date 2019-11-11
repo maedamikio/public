@@ -1,0 +1,28 @@
+service: flask-opencv
+provider:
+  name: aws
+  runtime: python3.7
+# stage: dev
+  region: ap-northeast-1
+  timeout: 30
+plugins:
+  - serverless-apigw-binary
+  - serverless-python-requirements
+  - serverless-wsgi
+functions:
+  main:
+    handler: wsgi_handler.handler
+    events:
+      - http: ANY /
+      - http: ANY {proxy+}
+custom:
+  wsgi:
+    app: main.app
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: true
+  apigwBinary:
+    types:
+      - 'image/jpeg'
+      - 'multipart/form-data'
+      - 'text/html'
