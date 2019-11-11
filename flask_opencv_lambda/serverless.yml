@@ -23,6 +23,6 @@ custom:
     dockerizePip: true
   apigwBinary:
     types:
-      - 'image/jpeg'
+#     - 'image/jpeg'
       - 'multipart/form-data'
       - 'text/html'
