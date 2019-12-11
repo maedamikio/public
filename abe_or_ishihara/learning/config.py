@@ -34,8 +34,10 @@ CLASSES = [
     '黒島結菜'
 ]
 
-
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(BASE_PATH, 'data')
 LINK_PATH = os.path.join(DATA_PATH, 'link')
 DOWNLOAD_PATH = os.path.join(DATA_PATH, 'download')
+FACE_PATH = os.path.join(DATA_PATH, 'face')
+
+HAARCASCADE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'haarcascade_frontalface_default.xml')
