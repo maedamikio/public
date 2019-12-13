@@ -1,0 +1,30 @@
+.image-checkbox {
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: relative;
+}
+
+.image-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.image-checkbox-checked {
+  border-color: #d9534f;
+}
+
+.image-checkbox .fa {
+  color: #ffffff;
+  background-color: #d9534f;
+  font-size: 20px;
+  padding: 4px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.image-checkbox-checked .fa {
+  display: block !important;
+}
