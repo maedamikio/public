@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/download_and_face.css">
+
+    <title>Image Viewer</title>
+  </head>
+  <body>
+    <h1><a href="/">Top Page</a></h1>
+
+    <div class="container-fluid">
+      <form action="/download_and_face/{{ item }}" method="post">
+
+        <table class="table table-bordered">
+
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ダウンロード画像</th>
+              <th scope="col">顔画像</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for row in rows %}
+            <tr>
+              <td>
+                {{ loop.index }}
+              </td>
+              <td>
+                <figure class="figure">
+                  <img src="/data/download/{{ item }}/{{ row[0] }}?size=200" />
+                  <figcaption class="figure-caption">{{ row[0] }}</figcaption>
+                </figure>
+              </td>
+              <td>
+                {% for filename in row[1:] %}
+                <figure class="figure">
+                  <label class="image-checkbox">
+                  <img src="/data/face/{{ item }}/{{ filename }}?size=200" />
+                  <input type="checkbox" name="filename" value="{{ filename }}" />
+                  <i class="fa fa-trash-o d-none"></i>
+                  </label>
+                  <figcaption class="figure-caption">{{ filename }}</figcaption>
+                </figure>
+                {% endfor %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+
+        <button type="submit" name="action" value="delete" class="btn btn-danger btn-lg" style="position: fixed; bottom: 20px; right: 20px;">画像を削除</button>
+      </form>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/static/download_and_face.js"></script>
+  </body>
+</html>
