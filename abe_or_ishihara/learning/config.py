@@ -39,5 +39,12 @@ DATA_PATH = os.path.join(BASE_PATH, 'data')
 LINK_PATH = os.path.join(DATA_PATH, 'link')
 DOWNLOAD_PATH = os.path.join(DATA_PATH, 'download')
 FACE_PATH = os.path.join(DATA_PATH, 'face')
+TRAIN_PATH = os.path.join(DATA_PATH, 'train')
+TEST_PATH = os.path.join(DATA_PATH, 'test')
+AUGMENT_PATH = os.path.join(DATA_PATH, 'augment')
 
 HAARCASCADE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'haarcascade_frontalface_default.xml')
+
+TRAIN_NUM = 0
+TEST_NUM = 100
+AUGMENT_NUM = 6000
