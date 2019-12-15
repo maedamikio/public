@@ -35,13 +35,6 @@ def split(query):
     face_file_list.sort()
 
     random.shuffle(face_file_list)
-    """
-    ToDo:
-    import numpy as np
-    np.random.shuffle(face_file_list)
-    or
-    face_file_list = np.random.permutation(face_file_list)
-    """
 
     train_file_list = face_file_list[:-TEST_NUM]
     test_file_list = face_file_list[len(train_file_list):]
