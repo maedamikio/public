@@ -1,5 +1,7 @@
 flask
 google-api-python-client
 opencv-python
+numpy==1.16.5
 pillow
 requests
+tqdm
