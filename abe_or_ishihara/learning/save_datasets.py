@@ -16,13 +16,13 @@ import numpy as np
 
 from PIL import Image, ImageFile
 
-from config import CLASSES, TRAIN_PATH, TEST_PATH, AUGMENT_PATH, DATASETS_PATH, AUGMENT_NUM, IMG_ROWS, IMG_COLS
+from config import CLASSES, TRAIN_PATH, TEST_PATH, AUGMENT_PATH, DATASETS_PATH, AUGMENT_NUM, USE_AUGMENT, IMG_ROWS, IMG_COLS
 
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
-def make_filesets(augment):
+def make_filesets():
     """ファイルセットの作成."""
 
     filesets = {'train': dict(), 'test': dict(), 'augment': dict()}
@@ -55,14 +55,14 @@ def make_filesets(augment):
         random.shuffle(augment_files)
         filesets['augment'][query] = augment_files
 
-        if augment and len(augment_files) < AUGMENT_NUM:
+        if USE_AUGMENT and len(augment_files) < AUGMENT_NUM:
             print('less augment num: {}, path: {}'.format(len(augment_files), augment_path))
             return None
 
     return filesets
 
 
-def make_datasets(augment, filesets):
+def make_datasets(filesets):
     """データセットの作成."""
 
     train_images = []
@@ -73,7 +73,7 @@ def make_datasets(augment, filesets):
     for num, query in enumerate(CLASSES):
         print('create dataset: {}'.format(query))
 
-        if augment:
+        if USE_AUGMENT:
             train_files = filesets['augment'][query][:AUGMENT_NUM]
         else:
             train_files = filesets['train'][query]
@@ -90,7 +90,7 @@ def make_datasets(augment, filesets):
 
     datasets_path = os.path.join(DATASETS_PATH, ','.join(CLASSES))
     os.makedirs(datasets_path, exist_ok=True)
-    train_num = AUGMENT_NUM if augment else 0
+    train_num = AUGMENT_NUM if USE_AUGMENT else 0
     datasets_file = os.path.join(datasets_path, '{}x{}-{}.pickle'.format(IMG_ROWS, IMG_COLS, train_num))
     with open(datasets_file, 'wb') as fout:
         pickle.dump(datasets, fout)
@@ -104,6 +104,7 @@ def read_image(filename):
     image = image.resize((IMG_ROWS, IMG_COLS), Image.LANCZOS)
     image = image.convert('L')
     image = np.array(image, dtype=np.uint8)
+    #print(image, image.min(), image.max(), image.dtype, image.ndim, image.size, image.shape)
 
     return image
 
@@ -112,13 +113,12 @@ def main(_):
     """config.py の CLASSES、引数で処理を実施."""
 
     os.makedirs(DATASETS_PATH, exist_ok=True)
-    filesets = make_filesets(_.augment)
+    filesets = make_filesets()
     if filesets:
-        make_datasets(_.augment, filesets)
+        make_datasets(filesets)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='データセットの作成')
-    parser.add_argument('--augment', action='store_true', help='水増し画像の利用')
     args = parser.parse_args()
     main(args)
