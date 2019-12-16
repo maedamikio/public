@@ -49,5 +49,6 @@ HAARCASCADE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'haa
 TRAIN_NUM = 0
 TEST_NUM = 100
 AUGMENT_NUM = 6000
+USE_AUGMENT = True
 
 IMG_ROWS, IMG_COLS = 28, 28
