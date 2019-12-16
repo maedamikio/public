@@ -83,7 +83,7 @@ def make_datasets(augment, filesets):
             train_images.append(read_image(train_file))
             train_labels.append(num)
         for test_file in tqdm.tqdm(test_files, desc='create test', leave=False):
-            train_images.append(read_image(test_file))
+            test_images.append(read_image(test_file))
             test_labels.append(num)
 
     datasets = ((np.array(train_images), (np.array(train_labels))), (np.array(test_images), (np.array(test_labels))))
