@@ -10,10 +10,14 @@ import io
 import os
 import pprint
 
+import numpy as np
+
 from flask import Flask, abort, make_response, render_template, request
 from PIL import Image, ImageFile
 
-from config import DATA_PATH, DOWNLOAD_PATH, FACE_PATH, CLASSES
+from config import CLASSES, DATA_PATH, DOWNLOAD_PATH, FACE_PATH, IMG_ROWS, IMG_COLS
+
+import face_deep
 
 app = Flask(__name__)
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -57,7 +61,7 @@ def download_and_face(item):
 def get_image(folder, item, filename):
     """画像のレスポンス size で拡大縮小."""
 
-    if folder not in ['download', 'face']:
+    if folder not in ['download', 'face', 'train', 'test']:
         abort(404)
 
     filename = os.path.join(DATA_PATH, folder, item, filename)
@@ -80,6 +84,36 @@ def get_image(folder, item, filename):
     response.mimetype = 'image/jpeg'
 
     return response
+
+
+@app.route('/predict/<folder>/<item>')
+def predict(folder, item):
+    """画像の推論."""
+
+    if folder not in ['train', 'test']:
+        abort(404)
+
+    filename_list = sorted(glob.glob(os.path.join(DATA_PATH, folder, item, '*.jpeg')))
+
+    image_list = []
+    for filename in filename_list:
+
+        face = Image.open(filename)
+        face = face.resize((IMG_ROWS, IMG_COLS), Image.LANCZOS)
+        face = face.convert('L')
+        face = np.array(face, dtype=np.float32) / 255.0
+        face = np.ravel(face)
+        image_list.append(face)
+
+    percent_list = face_deep.predict(image_list, dtype='int')
+
+    rows = []
+    for filename, percent in zip(filename_list, percent_list):
+        color = CLASSES.index(item) in [index for index, value in enumerate(percent) if value == max(percent)]
+        row = {'filename': os.path.basename(filename), 'percent': percent, 'color': color}
+        rows.append(row)
+
+    return render_template('predict.html', folder=folder, item=item, headers=CLASSES, rows=rows)
 
 
 if __name__ == '__main__':
