@@ -1,0 +1,6 @@
+boto3
+django
+numpy==1.16.5
+opencv-python
+pillow
+tensorflow==1.14.0
