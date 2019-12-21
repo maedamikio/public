@@ -1,5 +1,7 @@
 boto3
 django
+django-heroku
+gunicorn
 numpy==1.16.5
 opencv-python
 pillow

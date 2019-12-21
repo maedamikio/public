@@ -1,0 +1,15 @@
+setup:
+  addons:
+    - plan: 'heroku-postgresql:hobby-dev'
+      as: DATABASE
+  config:
+    AWS_ACCESS_KEY_ID: 'your-aws-access-key'
+    AWS_SECRET_ACCESS_KEY: 'your-aws-secret-access-key'
+    BUCKET: abe-or-ishihara
+build:
+  languages:
+    - python
+  packages:
+    - libopencv-dev
+run:
+  web: gunicorn project.wsgi --log-file -
