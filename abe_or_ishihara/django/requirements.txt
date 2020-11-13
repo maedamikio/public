@@ -5,4 +5,4 @@ gunicorn
 numpy==1.16.5
 opencv-python
 pillow
-tensorflow==1.14.0
+tensorflow==2.3.1
